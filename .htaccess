@@ -1,0 +1,3 @@
+# Prevent Directory Listing
+Options -Indexes
+ErrorDocument 403 /index.php
