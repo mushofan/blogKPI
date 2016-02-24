@@ -1,10 +1,11 @@
 <?php
-session_start();
+require_once 'session.php';
+SessionManager::sessionStart();
+
 error_reporting(E_ALL);
 ini_set('display_errors','On');
-if (isset($_POST['submit']) && (!isset($_GET['id'])))
+if (isset($_POST['submit']) && (!isset($_GET['id'])) && (isset($_SESSION['csrf_salt'])) && (isset($_POST['csrf_salt'])))
 {
-    $csrf_salt = base64_encode(openssl_random_pseudo_bytes(16));
     require_once "post_utility.php";
 
     $sql_date = date("Y-m-d", strtotime($_POST['Tanggal']));
@@ -23,10 +24,14 @@ if (isset($_POST['submit']) && (!isset($_GET['id'])))
     $post_validated = preg_replace("/\"/","&quot;",$post_validated);
     $post_validated = preg_replace("/\//","&#x2F;",$post_validated);
 
-    createPost($csrf_salt, $session, $title_validated, $sql_date, $post_validated);
+    if ($_POST['csrf_salt'] === $_SESSION['csrf_salt']) {
+        createPost($title_validated, $sql_date, $post_validated);
+    } else {
 
-    $success = 1;
-} else if (isset($_POST['submit']) && isset($_GET['id']))
+    }
+
+    header("Location: index.php");
+} else if (isset($_POST['submit']) && isset($_GET['id']) && (isset($_SESSION['csrf_salt'])))
 {
     require_once "post_utility.php";
     $sql_date = $sql_date = date("Y-m-d", strtotime($_POST['Tanggal']));
@@ -46,12 +51,13 @@ if (isset($_POST['submit']) && (!isset($_GET['id'])))
     $post_validated = preg_replace("/\//","&#x2F;",$post_validated);
     updatePost($_GET['id'], $title_validated, $sql_date, $post_validated);
 
-    $success = 2;
+    header("Location: index.php");
 }
 else{
     $csrf_salt = base64_encode(openssl_random_pseudo_bytes(16));
     $_SESSION['csrf_salt'] = $csrf_salt;
     $session = $_SESSION['csrf_salt'];
+    SessionManager::regenerateSession();
 }
 
 if (isset($_GET['id']))
@@ -116,7 +122,6 @@ if (isset($_GET['id']))
             <h2><?php if(isset($_GET['id'])) {echo "Edit Post";} else { echo "Tambah Post";}?></h2>
 
             <div id="contact-area">
-                <?php if(isset($success)){if($success == 1){header('Location: index.php');} else if($success == 2){header('Location: index.php');}}?>
                 <form method="post" action="#">
                     <input type="hidden" name="csrf_salt" id="csrf_salt" value="<?php echo $csrf_salt ?>"/>
                     <label for="Judul">Judul:</label>
