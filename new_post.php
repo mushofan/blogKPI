@@ -2,8 +2,15 @@
 require_once 'session.php';
 SessionManager::sessionStart();
 
+if (!SessionManager::isLoggedIn()){
+    header("Location: login.php");
+    die();
+}
+
 error_reporting(E_ALL);
 ini_set('display_errors','On');
+
+//Proses post baru
 if (isset($_POST['submit']) && (!isset($_GET['id'])) && (isset($_SESSION['csrf_salt'])) && (isset($_POST['csrf_salt'])))
 {
     require_once "post_utility.php";
@@ -31,6 +38,7 @@ if (isset($_POST['submit']) && (!isset($_GET['id'])) && (isset($_SESSION['csrf_s
     }
 
     header("Location: index.php");
+    die();
 } else if (isset($_POST['submit']) && isset($_GET['id']) && (isset($_SESSION['csrf_salt'])))
 {
     require_once "post_utility.php";
@@ -52,6 +60,7 @@ if (isset($_POST['submit']) && (!isset($_GET['id'])) && (isset($_SESSION['csrf_s
     updatePost($_GET['id'], $title_validated, $sql_date, $post_validated);
 
     header("Location: index.php");
+    die();
 }
 else{
     $csrf_salt = base64_encode(openssl_random_pseudo_bytes(16));
@@ -60,12 +69,13 @@ else{
     SessionManager::regenerateSession();
 }
 
-if (isset($_GET['id']))
-{
-    require_once "post_utility.php";
-    $post = loadPost($_GET['id']);
-}
-?>
+//Ambil post lama
+//if (isset($_GET['id']))
+//{
+//    require_once "post_utility.php";
+//    $post = loadPost($_GET['id']);
+//}
+//?>
 <!DOCTYPE html>
 <html>
 <head>

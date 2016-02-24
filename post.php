@@ -14,12 +14,7 @@ $id = $_GET["id"];
 $post = loadPost($id);
 if (!isset($post['konten']))
 {
-    $url  = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-    $url .= $_SERVER['SERVER_NAME'];
-    $url .= $_SERVER['REQUEST_URI'];
-
-    $location = dirname($url);
-    header("Location: ".$location."/404.html");
+    header("Location: 404.php");
     die();
 }
 ?>

@@ -75,7 +75,18 @@ function loadPost($id)
 	}
 
 	//Prepare statement
-	$results = $mysqli->query("SELECT * FROM `posts` WHERE `id`=".$id);	
+	if (!$statement = $mysqli->prepare("SELECT * FROM `posts` WHERE `id`= ?")){
+		echo "Error connecting to mysql database";
+		die();
+	}
+	if (!$statement->bind_param('i', $id)){
+		header("Location: 404.php");
+		die();
+	}
+
+	$statement->execute();
+    $results = $statement->get_result();
+//	$results = $mysqli->query("SELECT * FROM `posts` WHERE `id`=".$id);
 
 	if (!$results)
 	{
