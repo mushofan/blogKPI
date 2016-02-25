@@ -9,7 +9,7 @@
 class Util{
 
     public static function validateUsername($username){
-        if ((preg_match("/^[0-9a-z_]+$/", $username) == 0) && strlen($username) < 51 && strlen($username) > 2) {
+        if ((preg_match_all("/^[0-9a-z_]+$/", $username) == 0) && strlen($username) < 51 && strlen($username) > 2) {
             return false;
         } else {
             return true;
