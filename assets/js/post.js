@@ -1,4 +1,4 @@
-function deletePost(id)
+function deletePost(id,csrf)
 {
 	if (confirm("Apakah Anda yakin menghapus post ini?"))
 	{
@@ -13,7 +13,7 @@ function deletePost(id)
 			}
 		}
 		xmlHtppObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xmlHtppObj.send("id=" + id);
+		xmlHtppObj.send("id=" + id + "&csrf=" + csrf);
 	}
 
 	return false;
