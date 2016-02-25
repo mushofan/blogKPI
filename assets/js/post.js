@@ -51,16 +51,8 @@ function validate()
 		dateString = dateField.value.split("-");
 
 		date = new Date(dateString[2], dateString[1] - 1, dateString[0], 23, 59, 59);
-		currentDate = new Date();
 
-		if (date <= currentDate)
-		{
-			errorMessage.innerHTML = "Tanggal harus lebih baru atau sama dengan hari ini";
-			return false;
-		} else {
-			errorMessage.innerHTML = "";
-			return true;
-		}
+		return true;
 
 	}else {
 		
