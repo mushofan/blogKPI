@@ -290,6 +290,7 @@ div.cover > img {
   font-style: normal;
   font-size: 21px;
   line-height: 1.5;
+  margin-top: 80px;
 }
 .art-body-inner a:hover {
   border-bottom: 1px solid #F40034;

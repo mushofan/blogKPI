@@ -30,4 +30,8 @@ class Util{
 
         return $rawData;
     }
+
+    public static function validateEmail($rawEmail){
+
+    }
 }
