@@ -7,6 +7,7 @@
  */
 require_once  'db_config.php';
 require_once 'util.php';
+require_once 'session.php';
 $SUCCESS = 1;
 $USERNAME_EXISTS = 2;
 $PASSWORD_TOO_LONG = 3;
@@ -88,13 +89,7 @@ if (isset($_POST['submit']) && isset($_POST['Username']) && isset($_POST['Passwo
 
 <body class="default">
 <div class="wrapper">
-
-<nav class="nav">
-    <a style="border:none;" id="logo" href="index.php"><h1>Simple<span>-</span>Blog</h1></a>
-    <ul class="nav-primary">
-        <li><a href="login.xhtml">Log In</a></li>
-    </ul>
-</nav>
+    <?php require_once "header.php";?>
 
  <div style="position:relative;top:180px;left:300px;">
   <h2>New User</h2>

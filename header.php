@@ -22,6 +22,7 @@ if (SessionManager::isLoggedIn())
 }
 else{
     echo "<li><a href=\"images.php\">Lihat Gambar</a> </li> <li>|</li>
+        <li><a href=\"register.php\">Daftar</a> </li> <li>|</li>
         <li> <a href='login.php'> Login </a> </li>
     </ul>
     </nav>";
