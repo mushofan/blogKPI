@@ -56,7 +56,7 @@ $posts = loadImagePosts();
                         ?>
                         <li class="art-list-item"> <!-- repeat this -->
                             <div class="art-list-item-title-and-time">
-                                <h2 class="art-list-title"><a href=<?php echo '"post.php?id='.$post['id'].'"';?>><?php echo $post["judul"];?></a></h2>
+                                <h2 class="art-list-title"><?php echo $post["judul"];?></h2>
                             </div>
                             <p>
                                 <img src="<?php echo $post['gambar'] ?>">

@@ -84,7 +84,10 @@ function loadPost($id)
 		die();
 	}
 
-	$statement->execute();
+	if ($statement->execute()){
+        header("Location: 404.php");
+        die();
+	}
     $results = $statement->get_result();
 //	$results = $mysqli->query("SELECT * FROM `posts` WHERE `id`=".$id);
 
