@@ -84,7 +84,7 @@ function loadPost($id)
 		die();
 	}
 
-	if ($statement->execute()){
+	if (!$statement->execute()){
         header("Location: 404.php");
         die();
 	}
