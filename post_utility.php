@@ -5,7 +5,7 @@ require_once 'db_config.php';
 
 function createPost($csrf, $session, $judul, $tanggal, $konten)
 {
-    if ($csrf == $session) {
+    if ($csrf === $session) {
         global $dbHost;
         global $dbUsername;
         global $dbPassword;

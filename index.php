@@ -1,4 +1,7 @@
 <?php
+session_start();
+$csrf_salt=base64_encode(openssl_random_pseudo_bytes(16));
+$_SESSION['csrf_salt'] = $csrf_salt;
 error_reporting(E_ALL);
 ini_set('display_errors','On');
 require_once "post_utility.php";

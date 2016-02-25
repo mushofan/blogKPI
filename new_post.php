@@ -1,57 +1,29 @@
 <?php
-session_start();
 error_reporting(E_ALL);
 ini_set('display_errors','On');
 if (isset($_POST['submit']) && (!isset($_GET['id'])))
 {
-    $csrf_salt = base64_encode(openssl_random_pseudo_bytes(16));
     require_once "post_utility.php";
-
+    require "function.php";
     $sql_date = date("Y-m-d", strtotime($_POST['Tanggal']));
-
-    $title_validated = $_POST["Judul"];
-    $title_validated = preg_replace("/\&/","&amp;",$title_validated);
-    $title_validated = preg_replace("/\</","&lt;",$title_validated);
-    $title_validated = preg_replace("/\>/","&gt;",$title_validated);
-    $title_validated = preg_replace("/\"/","&quot;",$title_validated);
-    $title_validated = preg_replace("/\//","&#x2F;",$title_validated);
-
-    $post_validated = $_POST["Konten"];
-    $post_validated = preg_replace("/\&/","&amp;",$post_validated);
-    $post_validated = preg_replace("/\</","&lt;",$post_validated);
-    $post_validated = preg_replace("/\>/","&gt;",$post_validated);
-    $post_validated = preg_replace("/\"/","&quot;",$post_validated);
-    $post_validated = preg_replace("/\//","&#x2F;",$post_validated);
-
-    createPost($csrf_salt, $session, $title_validated, $sql_date, $post_validated);
-
-    $success = 1;
+    $title_sanitized = sanitize($_POST["Judul"]);
+    $post_sanitized = sanitize($_POST["Konten"]);
+    echo("session: ".$_SESSION['csrf_salt']." <br> csrf_salt: ".$csrf_salt);
+    die;
+    createPost($csrf_salt, $_SESSION['csrf_salt'], $title_sanitized, $sql_date, $post_sanitized);
+    //createPost($title_sanitized, $sql_date, $post_sanitized);
+    header('Location: index.php');
 } else if (isset($_POST['submit']) && isset($_GET['id']))
 {
     require_once "post_utility.php";
+    require "function.php";
     $sql_date = $sql_date = date("Y-m-d", strtotime($_POST['Tanggal']));
+    $title_sanitized = sanitize($_POST["Judul"]);
+    $post_sanitized = sanitize($_POST["Konten"]);
 
-    $title_validated = $_POST["Judul"];
-    $title_validated = preg_replace("/\&/","&amp;",$title_validated);
-    $title_validated = preg_replace("/\</","&lt;",$title_validated);
-    $title_validated = preg_replace("/\>/","&gt;",$title_validated);
-    $title_validated = preg_replace("/\"/","&quot;",$title_validated);
-    $title_validated = preg_replace("/\//","&#x2F;",$title_validated);
+    updatePost($_GET['id'], $title_sanitized, $sql_date, $post_sanitized);
 
-    $post_validated = $_POST["Konten"];
-    $post_validated = preg_replace("/\&/","&amp;",$post_validated);
-    $post_validated = preg_replace("/\</","&lt;",$post_validated);
-    $post_validated = preg_replace("/\>/","&gt;",$post_validated);
-    $post_validated = preg_replace("/\"/","&quot;",$post_validated);
-    $post_validated = preg_replace("/\//","&#x2F;",$post_validated);
-    updatePost($_GET['id'], $title_validated, $sql_date, $post_validated);
-
-    $success = 2;
-}
-else{
-    $csrf_salt = base64_encode(openssl_random_pseudo_bytes(16));
-    $_SESSION['csrf_salt'] = $csrf_salt;
-    $session = $_SESSION['csrf_salt'];
+    header('Location: index.php');
 }
 
 if (isset($_GET['id']))
@@ -116,7 +88,6 @@ if (isset($_GET['id']))
             <h2><?php if(isset($_GET['id'])) {echo "Edit Post";} else { echo "Tambah Post";}?></h2>
 
             <div id="contact-area">
-                <?php if(isset($success)){if($success == 1){header('Location: index.php');} else if($success == 2){header('Location: index.php');}}?>
                 <form method="post" action="#">
                     <input type="hidden" name="csrf_salt" id="csrf_salt" value="<?php echo $csrf_salt ?>"/>
                     <label for="Judul">Judul:</label>
