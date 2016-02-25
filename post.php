@@ -1,4 +1,6 @@
 <?php
+require "session.php";
+SessionManager::sessionStart();
 require_once "post_utility.php";
 if (!isset($_GET["id"]))
 {
@@ -58,15 +60,7 @@ if (!isset($post['konten']))
 
 <body class="default" onload="loadSemuaKomentar();">
 <div class="wrapper">
-
-<nav class="nav">
-    <a style="border:none;" id="logo" href="index.php"><h1>Simple<span>-</span>Blog</h1></a>
-    <ul class="nav-primary">
-        <li><a href="images.php">Lihat Gambar</a> </li>
-        <li><a href="new_post.php">+ Tambah Post</a></li>
-        <li><a href="new_image_post.php">+ Tambah Gambar</a></li>
-    </ul>
-</nav>
+    <?php require_once "header.php";?>
 
 <article class="art simple post">
     

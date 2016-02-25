@@ -1,4 +1,6 @@
 <?php
+require_once 'session.php';
+SessionManager::sessionStart();
 error_reporting(E_ALL);
 ini_set('display_errors','On');
 require_once "post_utility.php";
@@ -42,15 +44,7 @@ $posts = loadPosts();
 
 <body class="default">
 <div class="wrapper">
-
-<nav class="nav">
-    <a style="border:none;" id="logo" href="index.php"><h1>Simple<span>-</span>Blog</h1></a>
-    <ul class="nav-primary">
-        <li><a href="images.php">Lihat Gambar</a> </li>
-        <li><a href="new_post.php">+ Tambah Post</a></li>
-        <li><a href="new_image_post.php">+ Tambah Gambar</a></li>
-    </ul>
-</nav>
+    <?php require_once "header.php";?>
 <script src="assets/js/post.js"></script>
 <div id="home">
     <div class="posts">
@@ -67,7 +61,12 @@ $posts = loadPosts();
                 </div>
                 <p><?php echo $post["konten"];?>&hellip;</p>
                 <p>
-                  <a href=<?php echo '"new_post.php?id='.$post['id'].'"';?>>Edit</a> | <a href="#" onclick=<?php echo '"return deletePost('.$post['id'].');"';?>>Hapus</a>
+                    <?php
+                        if (SessionManager::isLoggedIn()){
+                            echo '<a href="new_post.php?id='.$post['id'].'"> Edit </a> |
+                            <a href="#" onclick="return deletePost('.$post['id'].');"'.'> Hapus </a>';
+                        }
+                    ?>
                 </p>
             </li><!-- until this-->
             <?php

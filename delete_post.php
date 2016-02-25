@@ -1,5 +1,6 @@
 <?php
-if (isset($_POST['id']))
+//require_once "session.php";
+if (isset($_POST['id']) /*&& isset($_SESSION['csrf_salt'])*/)
 {
 	require_once "db_config.php";
 	global $dbHost;
@@ -33,5 +34,11 @@ if (isset($_POST['id']))
 	$statement->close();
 	echo "Success delete post with id :".$_POST['id'];
 }
+/*else{
+	$csrf_salt = base64_encode(openssl_random_pseudo_bytes(16));
+	$_SESSION['csrf_salt'] = $csrf_salt;
+	$session = $_SESSION['csrf_salt'];
+	SessionManager::regenerateSession();
+}*/
 
 ?>

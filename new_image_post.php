@@ -16,14 +16,7 @@ if (isset($_POST['submit']) && (isset($_SESSION['csrf_salt'])) && (isset($_POST[
     require_once "post_utility.php";
 
     if ($_POST['csrf_salt'] === $_SESSION['csrf_salt']) {
-        echo $_POST['csrf_salt'].$_SESSION['csrf_salt'];
-        die();
-        $title_validated = $_POST["Judul"];
-        $title_validated = preg_replace("/\&/","&amp;",$title_validated);
-        $title_validated = preg_replace("/\</","&lt;",$title_validated);
-        $title_validated = preg_replace("/\>/","&gt;",$title_validated);
-        $title_validated = preg_replace("/\"/","&quot;",$title_validated);
-        $title_validated = preg_replace("/\//","&#x2F;",$title_validated);
+        $title_sanitized = Util::sanitize($_POST["Judul"]);
 
         $image = @imagecreatefromjpeg($_FILES['Gambar']['tmp_name']);
         if (!$image){
@@ -46,7 +39,7 @@ if (isset($_POST['submit']) && (isset($_SESSION['csrf_salt'])) && (isset($_POST[
             imagedestroy($image);
         }
 
-        createImagePost($title_validated, $filename);
+        createImagePost($title_sanitized, $filename);
 
         header("Location: index.php");
         die();

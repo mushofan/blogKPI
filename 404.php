@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+    <?php
+        require_once "session.php";
+        SessionManager::sessionStart();
+    ?>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -36,16 +39,7 @@
 
 <body class="default">
 <div class="wrapper">
-
-<nav class="nav">
-    <a style="border:none;" id="logo" href="index.php"><h1>Simple<span>-</span>Blog</h1></a>
-    <ul class="nav-primary">
-        <li><a href="images.php">Lihat Gambar</a> </li>
-        <li><a href="new_post.php">+ Tambah Post</a></li>
-        <li><a href="new_image_post.php">+ Tambah Gambar</a></li>
-    </ul>
-</nav>
-
+    <?php require_once "header.php";?>
 <article class="art simple post">
     
     <header class="art-header">

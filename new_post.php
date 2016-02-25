@@ -38,8 +38,9 @@ if (isset($_POST['submit']) && (!isset($_GET['id'])) && (isset($_SESSION['csrf_s
     $title_sanitized = Util::sanitize($_POST["Judul"]);
 
     $post_sanitized = Util::sanitize($_POST["Konten"]);
-    updatePost($_GET['id'], $title_sanitized, $sql_date, $post_sanitized);
-
+    if ($_POST['csrf_salt'] === $_SESSION['csrf_salt']) {
+        updatePost($_GET['id'], $title_sanitized, $sql_date, $post_sanitized);
+    }
     header("Location: index.php");
     die();
 }
@@ -51,12 +52,12 @@ else{
 }
 
 //Ambil post lama
-//if (isset($_GET['id']))
-//{
-//    require_once "post_utility.php";
-//    $post = loadPost($_GET['id']);
-//}
-//?>
+if (isset($_GET['id']))
+{
+    require_once "post_utility.php";
+    $post = loadPost($_GET['id']);
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
