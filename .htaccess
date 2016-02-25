@@ -1,3 +1,7 @@
 # Prevent Directory Listing
 Options -Indexes
 ErrorDocument 403 /index.php
+
+# Set maximum file size upload
+php_value post_max_size 5M
+php_value upload_max_filesize 2M

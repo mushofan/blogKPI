@@ -131,4 +131,36 @@ function updatePost($id, $judul, $tanggal, $konten)
 	$statement->close();
 
 }
-?>
+
+function createImagePost($title, $imageUrl){
+    global $dbHost;
+    global $dbUsername;
+    global $dbPassword;
+    global $dbName;
+    $mysqli = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+    if ($mysqli->connect_errno)
+    {
+        echo "Failed to connect to mysql database " .$mysqli->connect_errno;
+        exit(0);
+    }
+
+    //Prepare statement
+    $statement = $mysqli->prepare("INSERT INTO `images`(`judul`, `gambar`) VALUES(?, ?)");
+    if (!$statement){
+        echo "Failed to create query";
+        die();
+    }
+
+    if (!$statement->bind_param('ss', $title, $imageUrl)){
+        echo 'Failed to bind parameter';
+        die();
+    };
+
+    if (!$statement->execute()){
+        echo 'Failed to execute query';
+        die();
+    }
+
+    $statement->close();
+
+}
