@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors','On');
 require_once "post_utility.php";
-$posts = loadPosts();
+$posts = loadImagePosts();
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,7 +46,9 @@ $posts = loadPosts();
     <nav class="nav">
         <a style="border:none;" id="logo" href="index.php"><h1>Simple<span>-</span>Blog</h1></a>
         <ul class="nav-primary">
+            <li><a href="images.php">Lihat Gambar</a> </li>
             <li><a href="new_post.php">+ Tambah Post</a></li>
+            <li><a href="new_image_post.php">+ Tambah Gambar</a></li>
         </ul>
     </nav>
 
@@ -62,11 +64,9 @@ $posts = loadPosts();
                         <li class="art-list-item"> <!-- repeat this -->
                             <div class="art-list-item-title-and-time">
                                 <h2 class="art-list-title"><a href=<?php echo '"post.php?id='.$post['id'].'"';?>><?php echo $post["judul"];?></a></h2>
-                                <div class="art-list-time"><?php echo date("d-M-Y", strtotime($post["tanggal"]));?></div>
                             </div>
-                            <p><?php echo $post["konten"];?>&hellip;</p>
                             <p>
-                                <a href=<?php echo '"new_post.php?id='.$post['id'].'"';?>>Edit</a> | <a href="#" onclick=<?php echo '"return deletePost('.$post['id'].');"';?>>Hapus</a>
+                                <img src="<?php echo $post['gambar'] ?>">
                             </p>
                         </li><!-- until this-->
                         <?php

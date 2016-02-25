@@ -14,25 +14,15 @@ ini_set('display_errors','On');
 if (isset($_POST['submit']) && (!isset($_GET['id'])) && (isset($_SESSION['csrf_salt'])) && (isset($_POST['csrf_salt'])))
 {
     require_once "post_utility.php";
-
+    require "util.php";
     $sql_date = date("Y-m-d", strtotime($_POST['Tanggal']));
 
-    $title_validated = $_POST["Judul"];
-    $title_validated = preg_replace("/\&/","&amp;",$title_validated);
-    $title_validated = preg_replace("/\</","&lt;",$title_validated);
-    $title_validated = preg_replace("/\>/","&gt;",$title_validated);
-    $title_validated = preg_replace("/\"/","&quot;",$title_validated);
-    $title_validated = preg_replace("/\//","&#x2F;",$title_validated);
+    $title_sanitized = Util::sanitize($_POST["Judul"]);
 
-    $post_validated = $_POST["Konten"];
-    $post_validated = preg_replace("/\&/","&amp;",$post_validated);
-    $post_validated = preg_replace("/\</","&lt;",$post_validated);
-    $post_validated = preg_replace("/\>/","&gt;",$post_validated);
-    $post_validated = preg_replace("/\"/","&quot;",$post_validated);
-    $post_validated = preg_replace("/\//","&#x2F;",$post_validated);
+    $post_sanitized = Util::sanitize($_POST["Konten"]);
 
     if ($_POST['csrf_salt'] === $_SESSION['csrf_salt']) {
-        createPost($title_validated, $sql_date, $post_validated);
+        createPost($title_sanitized, $sql_date, $post_sanitized);
     } else {
 
     }
@@ -42,22 +32,13 @@ if (isset($_POST['submit']) && (!isset($_GET['id'])) && (isset($_SESSION['csrf_s
 } else if (isset($_POST['submit']) && isset($_GET['id']) && (isset($_SESSION['csrf_salt'])))
 {
     require_once "post_utility.php";
+    require "util.php";
     $sql_date = $sql_date = date("Y-m-d", strtotime($_POST['Tanggal']));
 
-    $title_validated = $_POST["Judul"];
-    $title_validated = preg_replace("/\&/","&amp;",$title_validated);
-    $title_validated = preg_replace("/\</","&lt;",$title_validated);
-    $title_validated = preg_replace("/\>/","&gt;",$title_validated);
-    $title_validated = preg_replace("/\"/","&quot;",$title_validated);
-    $title_validated = preg_replace("/\//","&#x2F;",$title_validated);
+    $title_sanitized = Util::sanitize($_POST["Judul"]);
 
-    $post_validated = $_POST["Konten"];
-    $post_validated = preg_replace("/\&/","&amp;",$post_validated);
-    $post_validated = preg_replace("/\</","&lt;",$post_validated);
-    $post_validated = preg_replace("/\>/","&gt;",$post_validated);
-    $post_validated = preg_replace("/\"/","&quot;",$post_validated);
-    $post_validated = preg_replace("/\//","&#x2F;",$post_validated);
-    updatePost($_GET['id'], $title_validated, $sql_date, $post_validated);
+    $post_sanitized = Util::sanitize($_POST["Konten"]);
+    updatePost($_GET['id'], $title_sanitized, $sql_date, $post_sanitized);
 
     header("Location: index.php");
     die();
@@ -118,7 +99,9 @@ else{
 <nav class="nav">
     <a style="border:none;" id="logo" href="index.php"><h1>Simple<span>-</span>Blog</h1></a>
     <ul class="nav-primary">
+        <li><a href="images.php">Lihat Gambar</a> </li>
         <li><a href="new_post.php">+ Tambah Post</a></li>
+        <li><a href="new_image_post.php">+ Tambah Gambar</a></li>
     </ul>
 </nav>
 

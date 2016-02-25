@@ -164,3 +164,66 @@ function createImagePost($title, $imageUrl){
     $statement->close();
 
 }
+
+function loadImagePosts()
+{
+	global $dbHost;
+	global $dbUsername;
+	global $dbPassword;
+	global $dbName;
+	$mysqli = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+	if ($mysqli->connect_errno)
+	{
+		echo "Failed to connect to mysql database " .$mysqli->connect_errno;
+		exit(0);
+	}
+
+	//Prepare statement
+	$results = $mysqli->query("SELECT * FROM `images`");
+
+	if (!$results)
+	{
+		echo "Failed to fetch posts";
+		exit(0);
+	}
+
+	$mysqli->close();
+	return $results;
+}
+
+function loadImagePost($id)
+{
+	global $dbHost;
+	global $dbUsername;
+	global $dbPassword;
+	global $dbName;
+	$mysqli = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+	if ($mysqli->connect_errno)
+	{
+		echo "Failed to connect to mysql database " .$mysqli->connect_errno;
+		exit(0);
+	}
+
+	//Prepare statement
+	if (!$statement = $mysqli->prepare("SELECT * FROM `images` WHERE `id`= ?")){
+		echo "Error connecting to mysql database";
+		die();
+	}
+	if (!$statement->bind_param('i', $id)){
+		header("Location: 404.php");
+		die();
+	}
+
+	$statement->execute();
+	$results = $statement->get_result();
+//	$results = $mysqli->query("SELECT * FROM `posts` WHERE `id`=".$id);
+
+	if (!$results)
+	{
+		echo "Failed to fetch posts";
+		exit(0);
+	}
+
+	$mysqli->close();
+	return $results->fetch_assoc();
+}

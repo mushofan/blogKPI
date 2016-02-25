@@ -46,10 +46,11 @@ $posts = loadPosts();
 <nav class="nav">
     <a style="border:none;" id="logo" href="index.php"><h1>Simple<span>-</span>Blog</h1></a>
     <ul class="nav-primary">
+        <li><a href="images.php">Lihat Gambar</a> </li>
         <li><a href="new_post.php">+ Tambah Post</a></li>
+        <li><a href="new_image_post.php">+ Tambah Gambar</a></li>
     </ul>
 </nav>
-
 <script src="assets/js/post.js"></script>
 <div id="home">
     <div class="posts">
