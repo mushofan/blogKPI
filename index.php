@@ -5,6 +5,12 @@ error_reporting(E_ALL);
 ini_set('display_errors','On');
 require_once "post_utility.php";
 $posts = loadPosts();
+global $csrf_salt2;
+if (!isset($csrf_salt2)){
+    $csrf_salt2 = base64_encode(openssl_random_pseudo_bytes(16));
+    $_SESSION['csrf_salt2'] = $csrf_salt2;
+    SessionManager::regenerateSession();
+}
 ?>
 <!DOCTYPE html>
 <html>

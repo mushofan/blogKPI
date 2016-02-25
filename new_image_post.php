@@ -1,5 +1,6 @@
 <?php
 require_once 'session.php';
+require_once 'util.php';
 SessionManager::sessionStart();
 
 if (!SessionManager::isLoggedIn()){
@@ -98,14 +99,7 @@ if (isset($_GET['id']))
 
 <body class="default">
 <div class="wrapper">
-
-    <nav class="nav">
-        <a style="border:none;" id="logo" href="index.php"><h1>Simple<span>-</span>Blog</h1></a>
-        <ul class="nav-primary">
-            <li><a href="new_post.php">+ Tambah Post</a></li>
-        </ul>
-    </nav>
-
+    <?php require_once "header.php";?>
     <article class="art simple post">
 
 
