@@ -13,6 +13,10 @@ ini_set('display_errors','On');
 //Proses post baru
 if (isset($_POST['submit']) && (!isset($_GET['id'])) && (isset($_SESSION['csrf_salt'])) && (isset($_POST['csrf_salt'])))
 {
+    if (!preg_match_all("/^(\d{1,2})-(\d{1,2})-(\d{4})$/", $_POST['Tanggal'])){
+        header('Location: new_post.php');
+        die();
+    }
     require_once "post_utility.php";
     require "util.php";
     $sql_date = date("Y-m-d", strtotime($_POST['Tanggal']));
